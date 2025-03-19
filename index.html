@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoSearch - World's first Green AI</title>
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Satoshi", sans-serif;
+      }
+
+      body {
+        background-color: #f8faf8;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        position: relative;
+        color: #2c3e50;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-repeat: repeat;
+        background-position: left top;
+        background-size: 250px auto;
+        background-image: url("https://framerusercontent.com/images/bROAaoheAqHuPxlolSgUWq9wSM.png");
+        opacity: 0.03;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .logo-container {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 1rem 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: 900;
+        color: #1a1a1a;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+        display: inline-block;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-2px);
+      }
+
+      .logo span {
+        background: linear-gradient(135deg, #4caf50, #8eb486);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+      }
+
+      .logo span::after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: linear-gradient(135deg, #4caf50, #8eb486);
+        border-radius: 50%;
+        top: -2px;
+        right: -10px;
+        opacity: 0.8;
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+      }
+
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 8rem 0;
+        position: relative;
+      }
+
+      .main-content::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150vw;
+        height: 100%;
+        background: radial-gradient(
+          circle at center,
+          rgba(76, 175, 80, 0.08) 0%,
+          rgba(142, 180, 134, 0.05) 30%,
+          transparent 70%
+        );
+        z-index: -1;
+      }
+
+      h1 {
+        font-size: clamp(3.5rem, 8vw, 5.5rem);
+        font-weight: 900;
+        margin-bottom: clamp(3rem, 5vw, 4rem);
+        line-height: 1;
+        letter-spacing: -0.03em;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+
+      .main-heading {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 700;
+        max-width: 900px;
+        text-align: center;
+        margin: clamp(4rem, 8vw, 6rem) auto;
+        padding: 0 2rem;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      h1 .green {
+        background: linear-gradient(135deg, #4caf50, #8eb486);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        display: inline-block;
+      }
+
+      h1 .green::after {
+        content: "";
+        position: absolute;
+        bottom: 0.1em;
+        left: 0;
+        width: 100%;
+        height: 0.1em;
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.2),
+          rgba(142, 180, 134, 0.2)
+        );
+        z-index: -1;
+        border-radius: 4px;
+      }
+
+      .email-form {
+        display: flex;
+        gap: 1.5rem;
+        width: 100%;
+        max-width: 800px;
+        margin: 4rem auto 6rem;
+        padding: 0 2rem;
+        position: relative;
+      }
+
+      .email-form::after {
+        content: "";
+        position: absolute;
+        inset: -1.5rem;
+        background: radial-gradient(
+          circle at center,
+          rgba(76, 175, 80, 0.1) 0%,
+          rgba(142, 180, 134, 0.05) 50%,
+          transparent 70%
+        );
+        z-index: -1;
+        border-radius: 1.5rem;
+      }
+
+      .email-input {
+        flex: 1;
+        padding: 1.8rem 2rem;
+        border: 2px solid rgba(142, 180, 134, 0.2);
+        border-radius: 16px;
+        background-color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        color: #2c3e50;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        min-width: 400px;
+      }
+
+      .email-input:focus {
+        outline: none;
+        border-color: #4caf50;
+        background-color: #fff;
+        box-shadow: 0 4px 20px rgba(76, 175, 80, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .email-input::placeholder {
+        color: #999;
+      }
+
+      .submit-button {
+        padding: 1.8rem 3rem;
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #4caf50, #8eb486);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        box-shadow: 0 4px 20px rgba(76, 175, 80, 0.2);
+        min-width: 200px;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(76, 175, 80, 0.25);
+        background: linear-gradient(135deg, #43a047, #81c784);
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 120px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 8rem 3rem;
+        position: relative;
+      }
+
+      .feature {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 3.5rem;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        border: 1px solid rgba(142, 180, 134, 0.15);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(142, 180, 134, 0.1);
+      }
+
+      .feature::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 28px;
+        padding: 2px;
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.5),
+          rgba(142, 180, 134, 0.2),
+          transparent
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.7;
+      }
+
+      .feature::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 28px;
+        background: radial-gradient(
+          circle at top right,
+          rgba(76, 175, 80, 0.1),
+          transparent 70%
+        );
+        z-index: 0;
+      }
+
+      .feature:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(76, 175, 80, 0.15),
+          0 12px 16px rgba(76, 175, 80, 0.1), 0 0 0 2px rgba(76, 175, 80, 0.2);
+        border-color: rgba(76, 175, 80, 0.3);
+      }
+
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        color: #4caf50;
+        stroke-width: 1.5;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        filter: drop-shadow(0 4px 6px rgba(76, 175, 80, 0.2));
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature:hover .feature-icon {
+        transform: scale(1.15) rotate(8deg);
+        color: #2e7d32;
+        filter: drop-shadow(0 8px 12px rgba(76, 175, 80, 0.3));
+      }
+
+      .feature-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 1.5rem;
+        color: #1a1a1a;
+        z-index: 1;
+        background: linear-gradient(135deg, #1a1a1a, #2e7d32);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .feature-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #4caf50, transparent);
+        border-radius: 4px;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+      }
+
+      .feature:hover .feature-title::after {
+        width: 140px;
+        opacity: 1;
+        background: linear-gradient(90deg, transparent, #2e7d32, transparent);
+      }
+
+      .feature-description {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #4a5568;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+      }
+
+      .feature:hover .feature-description {
+        color: #2d3748;
+      }
+
+      .footer {
+        background: linear-gradient(135deg, #4caf50, #8eb486);
+        padding: clamp(3rem, 5vw, 4rem);
+        margin-top: 10rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .footer-logo {
+        color: white;
+        font-size: 32px;
+        font-weight: 700;
+        text-decoration: none;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer-copyright {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 2rem 1rem;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+          gap: 60px;
+          padding: 4rem 1.5rem;
+        }
+
+        .feature {
+          padding: 2.5rem;
+        }
+
+        .main-content {
+          padding: 6rem 0;
+        }
+
+        .email-form {
+          flex-direction: column;
+          padding: 0 1.5rem;
+          margin: 2rem auto 4rem;
+          gap: 1rem;
+        }
+
+        .email-input {
+          min-width: 100%;
+          padding: 1.5rem 2rem;
+        }
+
+        .submit-button {
+          width: 100%;
+          padding: 1.5rem 2rem;
+        }
+
+        .footer-container {
+          padding: 0 1.5rem;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .features {
+          gap: 80px;
+          padding: 6rem 2rem;
+        }
+
+        .feature {
+          padding: 3rem;
+        }
+      }
+
+      .popup {
+        position: fixed;
+        top: 32px;
+        right: -400px; /* Start off-screen */
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 20px 32px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transform: translateX(0);
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 1000;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+      }
+
+      .popup.show {
+        right: 32px;
+        transform: translateX(0);
+      }
+
+      .popup-icon {
+        width: 24px;
+        height: 24px;
+        color: #4caf50;
+        animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .popup-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .popup-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+      }
+
+      .popup-message {
+        font-size: 14px;
+        color: #4a5568;
+      }
+
+      @keyframes scaleIn {
+        0% {
+          transform: scale(0);
+        }
+        70% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .popup {
+          left: 16px;
+          right: 16px;
+          top: -100px;
+          transform: translateY(0);
+        }
+
+        .popup.show {
+          right: 16px;
+          top: 16px;
+        }
+      }
+
+      .input-group {
+        flex: 1;
+        position: relative;
+      }
+
+      .error-message {
+        color: #d32f2f;
+        font-size: 0.875rem;
+        position: absolute;
+        bottom: -1.5rem;
+        left: 0;
+        display: none;
+      }
+
+      .email-input.invalid {
+        border-color: #d32f2f;
+      }
+
+      .email-input.invalid + .error-message {
+        display: block;
+      }
+    </style>
+    <!-- Add EmailJS SDK -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Add popup HTML -->
+    <div class="popup" id="successPopup">
+      <svg
+        class="popup-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+      >
+        <path
+          d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M22 4L12 14.01l-3-3"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <div class="popup-content">
+        <div class="popup-title">Successfully Joined!</div>
+        <div class="popup-message">Thank you for joining our waitlist.</div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="logo-container">
+        <a href="#" class="logo"><span>Eco</span>Search</a>
+      </div>
+      <div class="main-content">
+        <h1>World's first <span class="green">Green</span> AI</h1>
+        <form class="email-form" id="waitlistForm" novalidate>
+          <div class="input-group">
+            <input
+              type="email"
+              class="email-input"
+              placeholder="name@email.com"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              required
+            />
+            <div class="error-message"></div>
+          </div>
+          <button type="submit" class="submit-button">Join the waitlist</button>
+        </form>
+
+        <h2 class="main-heading">
+          Build sustainable system's with your search
+        </h2>
+
+        <div class="features">
+          <div class="feature">
+            <svg
+              class="feature-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <h3 class="feature-title">Climate Driven</h3>
+            <p class="feature-description">
+              We put the revenue earned to work with climate investments in
+              renewables and plantation drives.
+            </p>
+          </div>
+
+          <div class="feature">
+            <svg
+              class="feature-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M15.0098 4.75C16.1943 4.75 17.3788 5.08763 18.4193 5.75M3 19.25L3.86676 16.0913C4.62612 13.3755 6.48486 11.1697 9 9.75M12 14.75C12 14.75 15.25 13.5 15.25 10.25C15.25 7 12 5.75 12 5.75C12 5.75 8.75 7 8.75 10.25C8.75 13.5 12 14.75 12 14.75ZM12 14.75V19.25"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <h3 class="feature-title">Optimized Search</h3>
+            <p class="feature-description">
+              We provide quality search results, reducing energy consumption by
+              300%
+            </p>
+          </div>
+
+          <div class="feature">
+            <svg
+              class="feature-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M9 11L12 14L22 4M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <h3 class="feature-title">Privacy First</h3>
+            <p class="feature-description">
+              We don't collect or store any data. We are privacy focused ai
+              search engine.
+            </p>
+          </div>
+
+          <div class="feature">
+            <svg
+              class="feature-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                d="M12.5 3.046L12.5 20.954M4.583 7.833C4.583 9.524 6.076 11.417 8.663 12.803C11.251 14.189 13.749 14.189 16.337 12.803C18.924 11.417 20.417 9.524 20.417 7.833C20.417 6.142 18.924 4.25 16.337 2.864C13.749 1.478 11.251 1.478 8.663 2.864C6.076 4.25 4.583 6.142 4.583 7.833ZM4.583 16.167C4.583 17.858 6.076 19.75 8.663 21.136C11.251 22.522 13.749 22.522 16.337 21.136C18.924 19.75 20.417 17.858 20.417 16.167"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <h3 class="feature-title">Minimal Design</h3>
+            <p class="feature-description">
+              Our Design System is minimal to reduce the carbon footprints with
+              user interaction.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <a href="#" class="footer-logo">EcoSearch</a>
+        <div class="footer-copyright">© 2025 EcoSearch</div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize EmailJS with your public key
+      (function() {
+        emailjs.init("2ARbQ1pqcJ5UGFNc3");  // Your correct public key
+      })();
+
+      // Track waitlist position
+      let currentPosition = 27;
+      let totalUsers = 27;
+
+      document.getElementById("waitlistForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const emailInput = e.target.querySelector('input[type="email"]');
+        const submitButton = e.target.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+
+        // Basic email validation
+        if (!emailInput.value || !emailInput.value.includes('@')) {
+          showPopup("Please enter a valid email address", true);
+          return;
+        }
+
+        // Disable form while submitting
+        emailInput.disabled = true;
+        submitButton.disabled = true;
+        submitButton.innerHTML = "Joining...";
+
+        // Generate unique referral ID
+        const referralId = Math.random().toString(36).substring(7).toUpperCase();
+        
+        // Generate waitlist links
+        const baseUrl = 'https://getwaitlist.com/waitlist/26454';
+        const referralLink = `${baseUrl}?ref_id=${referralId}`;
+        const statusLink = baseUrl;
+
+        // Send email using EmailJS with your correct credentials
+        emailjs.send(
+          "service_9qyqicm",    // Your correct service ID
+          "template_cidm9qm",   // Your correct template ID
+          {
+            to_email: emailInput.value,
+            position: currentPosition.toString(),
+            total: totalUsers.toString(),
+            referral_link: referralLink,
+            status_link: statusLink
+          }
+        ).then(
+          function(response) {
+            // Success
+            submitButton.innerHTML = "Joined Successfully!";
+            submitButton.style.background = "linear-gradient(135deg, #45a049, #2e7d32)";
+            emailInput.value = "";
+            
+            // Update position counter
+            currentPosition++;
+            totalUsers++;
+            
+            // Show success message
+            showPopup(`You are #${currentPosition} in line! Check your email for details.`);
+
+            // Reset form after 3 seconds
+            setTimeout(() => {
+              submitButton.innerHTML = originalButtonText;
+              submitButton.style.background = "";
+              emailInput.disabled = false;
+              submitButton.disabled = false;
+            }, 3000);
+          },
+          function(error) {
+            // Error handling
+            showPopup("Something went wrong. Please try again.", true);
+            submitButton.innerHTML = "Please try again";
+            submitButton.style.background = "linear-gradient(135deg, #d32f2f, #c62828)";
+
+            setTimeout(() => {
+              submitButton.innerHTML = originalButtonText;
+              submitButton.style.background = "";
+              emailInput.disabled = false;
+              submitButton.disabled = false;
+            }, 3000);
+          }
+        );
+      });
+
+      // Enhanced popup function
+      function showPopup(message, isError = false) {
+        const popup = document.getElementById("successPopup");
+        const popupTitle = popup.querySelector(".popup-title");
+        const popupMessage = popup.querySelector(".popup-message");
+        
+        popupTitle.textContent = isError ? "Error" : "Successfully Joined!";
+        popupMessage.textContent = message;
+        
+        if (isError) {
+          popup.style.background = "#ffebee";
+          popupTitle.style.color = "#d32f2f";
+        } else {
+          popup.style.background = "rgba(255, 255, 255, 0.95)";
+          popupTitle.style.color = "#4caf50";
+        }
+        
+        popup.classList.add("show");
+        setTimeout(() => {
+          popup.classList.remove("show");
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>
