@@ -708,98 +708,109 @@
 
     <script>
       // Initialize EmailJS with your public key
-      (function() {
-        emailjs.init("2ARbQ1pqcJ5UGFNc3");  // Your correct public key
+      (function () {
+        emailjs.init("2ARbQ1pqcJ5UGFNc3"); // Updated public key
       })();
 
       // Track waitlist position
       let currentPosition = 27;
       let totalUsers = 27;
 
-      document.getElementById("waitlistForm").addEventListener("submit", function(e) {
-        e.preventDefault();
+      document
+        .getElementById("waitlistForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-        const emailInput = e.target.querySelector('input[type="email"]');
-        const submitButton = e.target.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.innerHTML;
+          const emailInput = e.target.querySelector('input[type="email"]');
+          const submitButton = e.target.querySelector('button[type="submit"]');
+          const originalButtonText = submitButton.innerHTML;
 
-        // Basic email validation
-        if (!emailInput.value || !emailInput.value.includes('@')) {
-          showPopup("Please enter a valid email address", true);
-          return;
-        }
-
-        // Disable form while submitting
-        emailInput.disabled = true;
-        submitButton.disabled = true;
-        submitButton.innerHTML = "Joining...";
-
-        // Generate unique referral ID
-        const referralId = Math.random().toString(36).substring(7).toUpperCase();
-        
-        // Generate waitlist links
-        const baseUrl = 'https://getwaitlist.com/waitlist/26454';
-        const referralLink = `${baseUrl}?ref_id=${referralId}`;
-        const statusLink = baseUrl;
-
-        // Send email using EmailJS with your correct credentials
-        emailjs.send(
-          "service_9qyqicm",    // Your correct service ID
-          "template_cidm9qm",   // Your correct template ID
-          {
-            to_email: emailInput.value,
-            position: currentPosition.toString(),
-            total: totalUsers.toString(),
-            referral_link: referralLink,
-            status_link: statusLink
+          // Basic email validation
+          if (!emailInput.value || !emailInput.value.includes("@")) {
+            showPopup("Please enter a valid email address", true);
+            return;
           }
-        ).then(
-          function(response) {
-            // Success
-            submitButton.innerHTML = "Joined Successfully!";
-            submitButton.style.background = "linear-gradient(135deg, #45a049, #2e7d32)";
-            emailInput.value = "";
-            
-            // Update position counter
-            currentPosition++;
-            totalUsers++;
-            
-            // Show success message
-            showPopup(`You are #${currentPosition} in line! Check your email for details.`);
 
-            // Reset form after 3 seconds
-            setTimeout(() => {
-              submitButton.innerHTML = originalButtonText;
-              submitButton.style.background = "";
-              emailInput.disabled = false;
-              submitButton.disabled = false;
-            }, 3000);
-          },
-          function(error) {
-            // Error handling
-            showPopup("Something went wrong. Please try again.", true);
-            submitButton.innerHTML = "Please try again";
-            submitButton.style.background = "linear-gradient(135deg, #d32f2f, #c62828)";
+          // Disable form while submitting
+          emailInput.disabled = true;
+          submitButton.disabled = true;
+          submitButton.innerHTML = "Joining...";
 
-            setTimeout(() => {
-              submitButton.innerHTML = originalButtonText;
-              submitButton.style.background = "";
-              emailInput.disabled = false;
-              submitButton.disabled = false;
-            }, 3000);
-          }
-        );
-      });
+          // Generate unique referral ID
+          const referralId = Math.random()
+            .toString(36)
+            .substring(7)
+            .toUpperCase();
+
+          // Generate waitlist links
+          const baseUrl = "https://getwaitlist.com/waitlist/26454";
+          const referralLink = `${baseUrl}?ref_id=${referralId}`; // Fixed template string syntax
+          const statusLink = baseUrl;
+
+          // Send email using EmailJS with your correct credentials
+          emailjs
+            .send(
+              "1245", // Updated service ID
+              "template_covb6rf", // Updated template ID
+              {
+                to_email: emailInput.value,
+                position: currentPosition.toString(),
+                total: totalUsers.toString(),
+                referral_link: referralLink,
+                status_link: statusLink,
+              }
+            )
+            .then(
+              function (response) {
+                // Success
+                submitButton.innerHTML = "Joined Successfully!";
+                submitButton.style.background =
+                  "linear-gradient(135deg, #45a049, #2e7d32)";
+                emailInput.value = "";
+
+                // Update position counter
+                currentPosition++;
+                totalUsers++;
+
+                // Show success message
+                showPopup(
+                  `You are #${currentPosition} in line! Check your email for details.`
+                ); // Fixed template string syntax
+
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                  submitButton.innerHTML = originalButtonText;
+                  submitButton.style.background = "";
+                  emailInput.disabled = false;
+                  submitButton.disabled = false;
+                }, 3000);
+              },
+              function (error) {
+                // Error handling
+                showPopup("Something went wrong. Please try again.", true);
+                submitButton.innerHTML = "Please try again";
+                submitButton.style.background =
+                  "linear-gradient(135deg, #d32f2f, #c62828)";
+
+                setTimeout(() => {
+                  submitButton.innerHTML = originalButtonText;
+                  submitButton.style.background = "";
+                  emailInput.disabled = false;
+                  submitButton.disabled = false;
+                }, 3000);
+              }
+            );
+        });
 
       // Enhanced popup function
       function showPopup(message, isError = false) {
         const popup = document.getElementById("successPopup");
         const popupTitle = popup.querySelector(".popup-title");
         const popupMessage = popup.querySelector(".popup-message");
-        
+
         popupTitle.textContent = isError ? "Error" : "Successfully Joined!";
         popupMessage.textContent = message;
-        
+
         if (isError) {
           popup.style.background = "#ffebee";
           popupTitle.style.color = "#d32f2f";
@@ -807,7 +818,7 @@
           popup.style.background = "rgba(255, 255, 255, 0.95)";
           popupTitle.style.color = "#4caf50";
         }
-        
+
         popup.classList.add("show");
         setTimeout(() => {
           popup.classList.remove("show");
